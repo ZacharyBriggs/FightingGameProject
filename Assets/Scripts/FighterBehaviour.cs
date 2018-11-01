@@ -11,7 +11,7 @@ public class FighterBehaviour : MonoBehaviour
     public float HealthAmount;
     private HealthScriptable Health;
     private List<string> InputList = new List<string> { "None"};
-    private CharacterController controller;
+    private Rigidbody2D rb2d;
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class FighterBehaviour : MonoBehaviour
         Health.MaxValue = HealthAmount;
         Health.Value = HealthAmount;
         CurrentHealth = HealthAmount;
-        controller = GetComponent<CharacterController>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
     // Update is called once per frame
     void Update ()
@@ -78,7 +78,7 @@ public class FighterBehaviour : MonoBehaviour
                     Debug.Log(input);
                 }
             }
-            controller.SimpleMove(transform.right);
+            rb2d.AddForce(new Vector2(10, 0));
         }
 
         else if (Input.GetKey(KeyCode.LeftArrow))
@@ -91,7 +91,7 @@ public class FighterBehaviour : MonoBehaviour
                     Debug.Log(input);
                 }
             }
-            controller.SimpleMove(-transform.right);
+            rb2d.AddForce(new Vector2(-10, 0));
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
@@ -101,5 +101,9 @@ public class FighterBehaviour : MonoBehaviour
                 Debug.Log(input);
             }
         }
+    }
+    public void TakeDamage(float amount)
+    {
+        Health.TakeDamage(amount);
     }
 }
