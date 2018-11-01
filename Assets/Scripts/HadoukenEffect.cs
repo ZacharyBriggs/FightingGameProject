@@ -9,12 +9,13 @@ public class HadoukenEffect : Effect
     {
         get
         {
-            return new List<string> { "None","Down", "DownRight", "Right", "Attack" };
+            return new List<string> {"Down", "DownRight", "Right", "Attack" };
         }
     }
 
     public override void DoEffect(Vector3 pos, GameObject prefab)
     {
+        pos.x += 1;
         Instantiate(prefab, pos, Quaternion.identity);
     }
 }
