@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpAttack1: {fileID: 11400000, guid: 35c63f726a3dd6a4e89db0eeea38ca9e, type: 2}
   Projectile: {fileID: 1457057744722786, guid: 1141f68ecba1aeb458cdb6c03e3d1fd0, type: 2}
+  CurrentHealth: 0
   HealthAmount: 100
 --- !u!136 &136945774667482484
 CapsuleCollider:
