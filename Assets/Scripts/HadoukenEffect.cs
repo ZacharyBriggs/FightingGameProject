@@ -15,7 +15,7 @@ public class HadoukenEffect : Effect
 
     public override void DoEffect(Vector3 pos, GameObject prefab)
     {
-        pos.x += 1;
+        pos.x += 1.2f;
         Instantiate(prefab, pos, Quaternion.identity);
     }
 }
