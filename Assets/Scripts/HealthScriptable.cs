@@ -23,7 +23,7 @@ public class HealthScriptable : FloatVariable, IDamageable
         }
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         Value -= amount;
     }
