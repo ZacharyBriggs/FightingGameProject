@@ -20,7 +20,7 @@ public class HadoukenBehaviour : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        var other = col.GetComponent<IDamageable>();
+        var other = col.GetComponent<FighterBehaviour>();
         other.TakeDamage(10);
         Destroy(this.gameObject);
     }
