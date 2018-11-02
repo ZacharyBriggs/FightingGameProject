@@ -5,6 +5,15 @@ using UnityEngine;
 
 public class FighterBehaviour : MonoBehaviour
 {
+    public enum FighterState
+    {
+        Idle,
+        WalkingForward,
+        WalkingBackward,
+        Jumping,
+        Crouching
+    }
+
     public Effect SpAttack1;
     public GameObject Projectile;
     public float CurrentHealth;
@@ -12,6 +21,8 @@ public class FighterBehaviour : MonoBehaviour
     private HealthScriptable Health;
     private List<string> InputList = new List<string> { "None"};
     private Rigidbody2D rb2d;
+    private FighterState CurrentState;
+    private Animator _animator;
 
     private void Start()
     {
@@ -20,6 +31,7 @@ public class FighterBehaviour : MonoBehaviour
         Health.Value = HealthAmount;
         CurrentHealth = HealthAmount;
         rb2d = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update ()
@@ -66,6 +78,7 @@ public class FighterBehaviour : MonoBehaviour
                     Debug.Log(input);
                 }
             }
+            UpdateState(FighterState.Crouching);
         }
 
         else if (Input.GetKey(KeyCode.RightArrow))
@@ -78,9 +91,11 @@ public class FighterBehaviour : MonoBehaviour
                     Debug.Log(input);
                 }
             }
+            UpdateState(FighterState.WalkingForward);
+            _animator.SetBool("IsWalkingForward", true);
             rb2d.AddForce(new Vector2(10, 0));
         }
-
+        
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (InputList[InputList.Count - 1] != "Left")
@@ -91,8 +106,10 @@ public class FighterBehaviour : MonoBehaviour
                     Debug.Log(input);
                 }
             }
+            UpdateState(FighterState.WalkingBackward);
             rb2d.AddForce(new Vector2(-10, 0));
         }
+
         else if (Input.GetKeyDown(KeyCode.A))
         {
             InputList.Add("Attack");
@@ -101,9 +118,20 @@ public class FighterBehaviour : MonoBehaviour
                 Debug.Log(input);
             }
         }
+
+        else
+        {
+            UpdateState(FighterState.Idle);
+            _animator.SetBool("IsWalkingForward", false);
+        }
     }
     public void TakeDamage(float amount)
     {
         Health.TakeDamage(amount);
+    }
+
+    public void UpdateState(FighterState newState)
+    {
+        CurrentState = newState;
     }
 }
