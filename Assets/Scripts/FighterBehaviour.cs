@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class FighterBehaviour : MonoBehaviour
+public class FighterBehaviour : MonoBehaviour, IDamageable
 {
     public enum FighterState
     {
-        Idle,
-        WalkingForward,
-        WalkingBackward,
-        Jumping,
-        Crouching
+        Idle, //State 0
+        WalkingForward, //State 1
+        WalkingBackward, //State 2
+        Jumping, //State 3
+        Crouching, //State 4
+        LightPunch //State 5
     }
 
     public Effect SpAttack1;
@@ -92,8 +93,8 @@ public class FighterBehaviour : MonoBehaviour
                 }
             }
             UpdateState(FighterState.WalkingForward);
-            _animator.SetBool("IsWalkingForward", true);
-            rb2d.AddForce(new Vector2(10, 0));
+            _animator.SetInteger("State", 1);
+            rb2d.AddForce(new Vector2(transform.right.x*10, 0));
         }
         
         else if (Input.GetKey(KeyCode.LeftArrow))
@@ -107,7 +108,8 @@ public class FighterBehaviour : MonoBehaviour
                 }
             }
             UpdateState(FighterState.WalkingBackward);
-            rb2d.AddForce(new Vector2(-10, 0));
+            _animator.SetInteger("State", 2);
+            rb2d.AddForce(new Vector2(-(transform.right.x*10), 0));
         }
 
         else if (Input.GetKeyDown(KeyCode.A))
@@ -117,12 +119,14 @@ public class FighterBehaviour : MonoBehaviour
             {
                 Debug.Log(input);
             }
+            UpdateState(FighterState.LightPunch);
+            _animator.SetInteger("State", 5);
         }
 
         else
         {
             UpdateState(FighterState.Idle);
-            _animator.SetBool("IsWalkingForward", false);
+            _animator.SetInteger("State", 0);
         }
     }
     public void TakeDamage(float amount)
