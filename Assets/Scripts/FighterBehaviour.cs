@@ -12,13 +12,16 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
         WalkingBackward, //State 2
         Jumping, //State 3
         Crouching, //State 4
-        LightPunch //State 5
+        LightPunch, //State 5
+        MediumPunch, //State 6
+        HeavyPunch //State 7
     }
 
     public Effect SpAttack1;
     public GameObject Projectile;
     public float CurrentHealth;
     public float HealthAmount;
+    public float Speed;
     private HealthScriptable Health;
     private List<string> InputList = new List<string> { "None"};
     private Rigidbody2D rb2d;
@@ -94,7 +97,7 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             }
             UpdateState(FighterState.WalkingForward);
             _animator.SetInteger("State", 1);
-            rb2d.AddForce(new Vector2(transform.right.x*10, 0));
+            rb2d.AddForce(new Vector2(transform.right.x*Speed, 0));
         }
         
         else if (Input.GetKey(KeyCode.LeftArrow))
@@ -109,7 +112,7 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             }
             UpdateState(FighterState.WalkingBackward);
             _animator.SetInteger("State", 2);
-            rb2d.AddForce(new Vector2(-(transform.right.x*10), 0));
+            rb2d.AddForce(new Vector2(-(transform.right.x*Speed), 0));
         }
 
         else if (Input.GetKeyDown(KeyCode.A))
@@ -123,6 +126,27 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             _animator.SetInteger("State", 5);
         }
 
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            InputList.Add("Attack");
+            foreach (var input in InputList)
+            {
+                Debug.Log(input);
+            }
+            UpdateState(FighterState.MediumPunch);
+            _animator.SetInteger("State", 6);
+        }
+
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            InputList.Add("Attack");
+            foreach (var input in InputList)
+            {
+                Debug.Log(input);
+            }
+            UpdateState(FighterState.HeavyPunch);
+            _animator.SetInteger("State", 7);
+        }
         else
         {
             UpdateState(FighterState.Idle);
