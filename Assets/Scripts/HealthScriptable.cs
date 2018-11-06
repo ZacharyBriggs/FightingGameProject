@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "_IntVariable")]
+[CreateAssetMenu]
 public class HealthScriptable : FloatVariable, IDamageable
 {
     [SerializeField] public float _mMaxValue;
