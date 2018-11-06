@@ -9,11 +9,19 @@ public class HadoukenEffect : Effect
     {
         get
         {
-            return new List<string> {"Down", "DownRight", "Right", "Attack" };
+            return new List<string> {"Down", "DownForward", "Forward", "Attack" };
         }
     }
 
-    public override void DoEffect(Vector3 pos, GameObject prefab)
+    public override int InputCount
+    {
+        get
+        {
+            return 4;
+        }
+    }
+
+    public override void DoEffect(Vector3 pos, GameObject prefab, Rigidbody2D rb2d)
     {
         pos.x += 1.2f;
         Instantiate(prefab, pos, Quaternion.identity);
