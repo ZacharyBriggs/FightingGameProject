@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +15,17 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
         Crouching, //State 4
         LightPunch, //State 5
         MediumPunch, //State 6
-        HeavyPunch //State 7
+        HeavyPunch, //State 7
+        JumpingLight, //State 8
+        JumpingMed, //State 9
+        JumpingHeavy, //State 10
+        CrouchingLight, //State 11
+        CrouchingMed, //State 12
+        CrouchingHeavy, //
+        Throwing,
+        SpecialOne,
+        SpecialTwo,
+        SpecialThree
     }
 
     public Effect SpAttack1;
@@ -22,10 +33,13 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
     public GameObject Projectile;
     public float CurrentHealth;
     public float HealthAmount;
+    public float MeterAmount;
     public float Speed;
     public Transform opponentTransform;
     private float TimeSinceLastInput = 0;
     private HealthScriptable Health;
+    [NonSerialized]
+    public MeterScriptable Meter;
     private List<string> InputList = new List<string> { "None" };
     private Rigidbody2D rb2d;
     private FighterState CurrentState;
@@ -34,12 +48,16 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
     private float RightButtonCount = 0;
     private float LeftButtonCooldown = 0.5f;
     private float LeftButtonCount = 0;
+    private bool IsGrounded = true;
 
     private void Start()
     {
         Health = ScriptableObject.CreateInstance<HealthScriptable>();
         Health.MaxValue = HealthAmount;
         Health.Value = HealthAmount;
+        Meter = ScriptableObject.CreateInstance<MeterScriptable>();
+        Meter.MaxValue = 100;
+        Meter.Value = 0;
         CurrentHealth = HealthAmount;
         rb2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -47,6 +65,8 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update ()
     {
+        MeterAmount = Meter.Value;
+
         if(opponentTransform.position.x < this.transform.position.x && transform.rotation.y != 180)
         {
             var rotation = new Quaternion(0, 180, 0, 0);
@@ -152,10 +172,13 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
-            InputList.Add("Down");
-            Debug.Log("Down");
+            if (InputList[InputList.Count - 1] != "Down")
+            {
+                InputList.Add("Down");
+                Debug.Log("Down");
+            }
             UpdateState(FighterState.Crouching);
             _animator.SetInteger("State", 4);
             TimeSinceLastInput = 0;
@@ -166,7 +189,17 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             UpdateState(FighterState.Idle);
         }
 
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded == true)
+        {
+            InputList.Add("Up");
+            Debug.Log("Up");
+            UpdateState(FighterState.Jumping);
+            _animator.SetInteger("State", 3);
+            rb2d.AddForce(new Vector2(0, 2500));
+            TimeSinceLastInput = 0;
+        }
+
+        else if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -254,7 +287,12 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             _animator.SetInteger("State", 0);
         }
         TimeSinceLastInput += Time.deltaTime;
-        
+        if (transform.position.y > 0)
+            IsGrounded = false;
+
+        else if (transform.position.y < -0.5)
+            IsGrounded = true;
+        _animator.SetBool("IsGrounded", IsGrounded);
     }
     public void TakeDamage(float amount)
     {
