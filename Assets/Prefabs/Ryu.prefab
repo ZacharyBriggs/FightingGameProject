@@ -11,6 +11,23 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1073515700428472}
   m_IsPrefabAsset: 1
+--- !u!1 &1035520662556764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4951156406786416}
+  - component: {fileID: 61949833974270520}
+  - component: {fileID: 114632014359953482}
+  m_Layer: 0
+  m_Name: LightPunchHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1073515700428472
 GameObject:
   m_ObjectHideFlags: 0
@@ -23,6 +40,7 @@ GameObject:
   - component: {fileID: 61432170175508142}
   - component: {fileID: 50587784441763332}
   - component: {fileID: 114543247932212462}
+  - component: {fileID: 95004952085752678}
   m_Layer: 0
   m_Name: Ryu
   m_TagString: Untagged
@@ -37,10 +55,24 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073515700428472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1, y: -0.9, z: 0.09237971}
+  m_LocalPosition: {x: -2.25, y: -0.9010794, z: 0.09237971}
   m_LocalScale: {x: 2.341, y: 1.817, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4951156406786416}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4951156406786416
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035520662556764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4399185429140694}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50587784441763332
@@ -60,7 +92,7 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!61 &61432170175508142
@@ -88,6 +120,49 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.66, y: 0.94}
   m_EdgeRadius: 0
+--- !u!61 &61949833974270520
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035520662556764}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.3309724, y: 0.3053382}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.50149816, y: 0.17874569}
+  m_EdgeRadius: 0
+--- !u!95 &95004952085752678
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1073515700428472}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f37989e7526bd4b40bd58eefb6ebd98f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114543247932212462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,9 +175,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpAttack1: {fileID: 11400000, guid: 35c63f726a3dd6a4e89db0eeea38ca9e, type: 2}
+  SpAttack2: {fileID: 11400000, guid: 2cc3ac5286b2c03498256397dcf97000, type: 2}
   Projectile: {fileID: 1429080861874260, guid: 5e9c28ba85ce8c24ebae497de8a119da, type: 2}
   CurrentHealth: 0
   HealthAmount: 100
+  Speed: 25
+  opponentTransform: {fileID: 0}
+--- !u!114 &114632014359953482
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035520662556764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28407a01a763d2f4d8113a032b454ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageAmount: 10
 --- !u!212 &212213068423832148
 SpriteRenderer:
   m_ObjectHideFlags: 1
