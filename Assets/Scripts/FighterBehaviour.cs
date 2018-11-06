@@ -18,17 +18,22 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
     }
 
     public Effect SpAttack1;
+    public Effect SpAttack2;
     public GameObject Projectile;
     public float CurrentHealth;
     public float HealthAmount;
     public float Speed;
-    public float InputTimer;
-    private float InputTimerReset;
+    public Transform opponentTransform;
+    private float TimeSinceLastInput = 0;
     private HealthScriptable Health;
-    private List<string> InputList = new List<string> { };
+    private List<string> InputList = new List<string> { "None" };
     private Rigidbody2D rb2d;
     private FighterState CurrentState;
     private Animator _animator;
+    private float RightButtonCooldown = 0.5f;
+    private float RightButtonCount = 0;
+    private float LeftButtonCooldown = 0.5f;
+    private float LeftButtonCount = 0;
 
     private void Start()
     {
@@ -38,139 +43,209 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
         CurrentHealth = HealthAmount;
         rb2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        InputTimerReset = InputTimer;
     }
     // Update is called once per frame
     void Update ()
     {
+        if(opponentTransform.position.x < this.transform.position.x && transform.rotation.y != 180)
+        {
+            var rotation = new Quaternion(0, 180, 0, 0);
+            transform.rotation = rotation; 
+        }
+        else
+        {
+            var rotation = new Quaternion(0, 0, 0, 0);
+            transform.rotation = rotation;
+        }
         if (InputList.Count > 4)
         {
-            int j = 0;
-            for (int i = 4; i > 0; i--)
+            int a = 0;
+            for (int i = SpAttack1.InputCount; i > 0; i--)
             {
-                if (InputList[InputList.Count - i] != SpAttack1.MoveInput[j])
+                if (InputList[InputList.Count - i] != SpAttack1.MoveInput[a])
                     break;
                 else
-                    j++;
+                    a++;
 
-                if (j == 4)
+                if (a == 4)
                 {
-                    SpAttack1.DoEffect(this.transform.position, Projectile);
-                    InputList.Add("Hadouken");
-                    InputList = new List<string> { };
+                    SpAttack1.DoEffect(this.transform.position, Projectile, rb2d);
+                    InputList.Add("Sp1");
+                    Debug.Log("Sp1");
+                    InputList = new List<string> { "None" };
                 }
             }
-            if (InputList[InputList.Count - 2] == "Right" && InputList[InputList.Count - 1] == "Right")
+            int b = 0;
+            for (int i = SpAttack2.InputCount; i > 0; i--)
             {
-                rb2d.AddForce(new Vector2(Speed*10, 0));
-                InputList.Add("DashForward");
-            }
-            if (InputList[InputList.Count - 2] == "Left" && InputList[InputList.Count - 1] == "Left")
-            {
-                rb2d.AddForce(new Vector2(-1*(Speed * 10), 0));
-                InputList.Add("DashBackward");
+                if (InputList[InputList.Count - i] != SpAttack2.MoveInput[b])
+                    break;
+                else
+                    b++;
+
+                if (b == 4)
+                {
+                    SpAttack2.DoEffect(this.transform.position, Projectile, rb2d);
+                    InputList.Add("Sp2");
+                    Debug.Log("Sp2");
+                    InputList = new List<string> { "None" };
+                }
             }
         }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+
+            if (RightButtonCooldown > 0 && RightButtonCount == 1)
+            {
+                rb2d.AddForce(new Vector2((Speed + 25) * 10, 0));
+                InputList.Add("DashForward");
+                Debug.Log("DashForward");
+            }
+            else
+            {
+                RightButtonCooldown = 0.5f;
+                RightButtonCount += 1;
+            }
+        }
+        if (RightButtonCooldown > 0)
+            RightButtonCooldown -= 1 * Time.deltaTime;
+        else
+            RightButtonCount = 0;
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+
+            if (LeftButtonCooldown > 0 && LeftButtonCount == 1)
+            {
+                rb2d.AddForce(new Vector2(-1 * ((Speed + 25) * 10), 0));
+                InputList.Add("DashBackward");
+                Debug.Log("DashBackward");
+            }
+            else
+            {
+                LeftButtonCooldown = 0.5f;
+                LeftButtonCount += 1;
+            }
+        }
+        if (LeftButtonCooldown > 0)
+            LeftButtonCooldown -= 1 * Time.deltaTime;
+        else
+            LeftButtonCount = 0;
 
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow))
         {
-            if (InputList[InputList.Count - 1] != "DownRight")
+            if (InputList[InputList.Count - 1] != "DownForward")
             {
-                InputList.Add("DownRight");
-                foreach (var input in InputList)
-                {
-                    Debug.Log(input);
-                }
+                InputList.Add("DownForward");
+                Debug.Log("DownForward");
             }
+            TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (InputList[InputList.Count - 1] != "DownBack")
+            {
+                InputList.Add("DownBack");
+                Debug.Log("DownBack");
+            }
+            TimeSinceLastInput = 0;
+        }
+
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             InputList.Add("Down");
-            foreach (var input in InputList)
-            {
-                Debug.Log(input);
-            }
+            Debug.Log("Down");
             UpdateState(FighterState.Crouching);
+            _animator.SetInteger("State", 4);
+            TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
         {
-            InputList.Add("Right");
-            foreach (var input in InputList)
-            {
-                Debug.Log(input);
-            }
-            UpdateState(FighterState.WalkingForward);
-            _animator.SetInteger("State", 1);
-            rb2d.AddForce(new Vector2(transform.right.x*Speed, 0));
+            UpdateState(FighterState.Idle);
         }
 
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (InputList[InputList.Count - 1] != "Right")
+            if (this.transform.rotation.y == 0)
             {
-                InputList.Add("Right");
+                if (InputList[InputList.Count - 1] != "Forward")
+                {
+                    InputList.Add("Forward");
+                    Debug.Log("Forward");
+                }
+                UpdateState(FighterState.WalkingForward);
+                _animator.SetInteger("State", 1);
+                rb2d.AddForce(new Vector2(transform.right.x * Speed, 0));
             }
-            UpdateState(FighterState.WalkingForward);
-            _animator.SetInteger("State", 1);
-            rb2d.AddForce(new Vector2(transform.right.x * Speed, 0));
-        }
-
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            InputList.Add("Left");
-            foreach (var input in InputList)
+            else
             {
-                Debug.Log(input);
+                if (InputList[InputList.Count - 1] != "Back")
+                {
+                    InputList.Add("Back");
+                    Debug.Log("Back");
+                }
+                UpdateState(FighterState.WalkingBackward);
+                _animator.SetInteger("State", 2);
+                rb2d.AddForce(new Vector2(-(transform.right.x * Speed), 0));
+                TimeSinceLastInput = 0;
             }
-            UpdateState(FighterState.WalkingBackward);
-            _animator.SetInteger("State", 2);
-            rb2d.AddForce(new Vector2(-(transform.right.x*Speed), 0));
+            TimeSinceLastInput = 0;
         }
 
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (InputList[InputList.Count - 1] != "Left")
+            if (this.transform.rotation.y == 0)
             {
-                InputList.Add("Left");
+                if (InputList[InputList.Count - 1] != "Back")
+                {
+                    InputList.Add("Back");
+                    Debug.Log("Back");
+                }
+                UpdateState(FighterState.WalkingBackward);
+                _animator.SetInteger("State", 2);
+                rb2d.AddForce(new Vector2(-(transform.right.x * Speed), 0));
             }
-            UpdateState(FighterState.WalkingBackward);
-            _animator.SetInteger("State", 2);
-            rb2d.AddForce(new Vector2(-(transform.right.x * Speed), 0));
+            else
+            {
+                if (InputList[InputList.Count - 1] != "Forward")
+                {
+                    InputList.Add("Forward");
+                    Debug.Log("Forward");
+                }
+                UpdateState(FighterState.WalkingForward);
+                _animator.SetInteger("State", 1);
+                rb2d.AddForce(new Vector2(transform.right.x * Speed, 0));
+            }
+            TimeSinceLastInput = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
             InputList.Add("Attack");
-            foreach (var input in InputList)
-            {
-                Debug.Log(input);
-            }
+            Debug.Log("Attack");
             UpdateState(FighterState.LightPunch);
             _animator.SetInteger("State", 5);
+            TimeSinceLastInput = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             InputList.Add("Attack");
-            foreach (var input in InputList)
-            {
-                Debug.Log(input);
-            }
+            Debug.Log("Attack");
             UpdateState(FighterState.MediumPunch);
             _animator.SetInteger("State", 6);
+            TimeSinceLastInput = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             InputList.Add("Attack");
-            foreach (var input in InputList)
-            {
-                Debug.Log(input);
-            }
+            Debug.Log("Attack");
             UpdateState(FighterState.HeavyPunch);
             _animator.SetInteger("State", 7);
+            TimeSinceLastInput = 0;
         }
 
         else
@@ -178,7 +253,8 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             UpdateState(FighterState.Idle);
             _animator.SetInteger("State", 0);
         }
-
+        TimeSinceLastInput += Time.deltaTime;
+        
     }
     public void TakeDamage(float amount)
     {
