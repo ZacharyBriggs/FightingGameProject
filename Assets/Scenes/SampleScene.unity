@@ -442,6 +442,11 @@ Prefab:
       propertyPath: Speed
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 114543247932212462, guid: 80c8231908d18d54bb2ab08715ee1102,
+        type: 2}
+      propertyPath: InputTimer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
   m_IsPrefabAsset: 0
@@ -459,7 +464,7 @@ GameObject:
   - component: {fileID: 2046980826}
   - component: {fileID: 2046980829}
   m_Layer: 0
-  m_Name: Dummy
+  m_Name: EVILRYU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -585,6 +590,7 @@ MonoBehaviour:
   CurrentHealth: 100
   HealthAmount: 100
   Speed: 0
+  InputTimer: 0
 --- !u!95 &2046980829
 Animator:
   serializedVersion: 3
