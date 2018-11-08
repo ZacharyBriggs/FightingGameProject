@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class HadoukenBehaviour : MonoBehaviour
 {
-    public Vector3 Force;
+    public float ForceScaler;
     public float Mass;
     public float LifeTime;
 	
 	// Update is called once per frame
 	void Update ()
     {
+        var Force = transform.right * ForceScaler;
         var vel = Force / Mass;
         this.transform.position += vel * Time.deltaTime;
         LifeTime -= Time.deltaTime;
