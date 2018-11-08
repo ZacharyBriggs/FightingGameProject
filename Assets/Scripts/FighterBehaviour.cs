@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class FighterBehaviour : MonoBehaviour, IDamageable
+public abstract class FighterBehaviour : MonoBehaviour, IDamageable
 {
     public enum FighterState
     {
@@ -21,16 +21,13 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
         JumpingHeavy, //State 10
         CrouchingLight, //State 11
         CrouchingMed, //State 12
-        CrouchingHeavy, //
-        Throwing,
-        SpecialOne,
-        SpecialTwo,
-        SpecialThree
+        CrouchingHeavy, // 13
+        Throwing, //14
+        SpecialOne,//15
+        SpecialTwo,//16
+        SpecialThree//17
     }
 
-    public Effect SpAttack1;
-    public Effect SpAttack2;
-    public GameObject Projectile;
     public float CurrentHealth;
     public float HealthAmount;
     public float MeterAmount;
@@ -40,17 +37,17 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
     private HealthScriptable Health;
     [NonSerialized]
     public MeterScriptable Meter;
-    private List<string> InputList = new List<string> { "None" };
+    protected List<string> InputList = new List<string> { "None" };
     private Rigidbody2D rb2d;
     private FighterState CurrentState;
-    private Animator _animator;
+    protected Animator _animator;
     private float RightButtonCooldown = 0.5f;
     private float RightButtonCount = 0;
     private float LeftButtonCooldown = 0.5f;
     private float LeftButtonCount = 0;
     private bool IsGrounded = true;
 
-    private void Start()
+    protected void StartUp()
     {
         Health = ScriptableObject.CreateInstance<HealthScriptable>();
         Health.MaxValue = HealthAmount;
@@ -62,56 +59,22 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
         rb2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
-    // Update is called once per frame
-    void Update ()
-    {
-        MeterAmount = Meter.Value;
 
-        if(opponentTransform.position.x < this.transform.position.x && transform.rotation.y != 180)
+    protected void RotationCheck()
+    {
+        if (opponentTransform.position.x < this.transform.position.x && transform.rotation.y != 180)
         {
             var rotation = new Quaternion(0, 180, 0, 0);
-            transform.rotation = rotation; 
+            transform.rotation = rotation;
         }
         else
         {
             var rotation = new Quaternion(0, 0, 0, 0);
             transform.rotation = rotation;
         }
-        if (InputList.Count > 4)
-        {
-            int a = 0;
-            for (int i = SpAttack1.InputCount; i > 0; i--)
-            {
-                if (InputList[InputList.Count - i] != SpAttack1.MoveInput[a])
-                    break;
-                else
-                    a++;
-
-                if (a == 4)
-                {
-                    SpAttack1.DoEffect(this.transform.position, Projectile, rb2d);
-                    InputList.Add("Sp1");
-                    Debug.Log("Sp1");
-                    InputList = new List<string> { "None" };
-                }
-            }
-            int b = 0;
-            for (int i = SpAttack2.InputCount; i > 0; i--)
-            {
-                if (InputList[InputList.Count - i] != SpAttack2.MoveInput[b])
-                    break;
-                else
-                    b++;
-
-                if (b == 4)
-                {
-                    SpAttack2.DoEffect(this.transform.position, Projectile, rb2d);
-                    InputList.Add("Sp2");
-                    Debug.Log("Sp2");
-                    InputList = new List<string> { "None" };
-                }
-            }
-        }
+    }
+    protected void DoubleTapCheck()
+    {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
 
@@ -151,23 +114,47 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             LeftButtonCooldown -= 1 * Time.deltaTime;
         else
             LeftButtonCount = 0;
-
+    }
+    protected void CheckButtons()
+    {
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow))
         {
-            if (InputList[InputList.Count - 1] != "DownForward")
+            if (this.transform.rotation.y == 0)
             {
-                InputList.Add("DownForward");
-                Debug.Log("DownForward");
+                if (InputList[InputList.Count - 1] != "DownForward")
+                {
+                    InputList.Add("DownForward");
+                    Debug.Log("DownForward");
+                }
+            }
+            else
+            {
+                if (InputList[InputList.Count - 1] != "DownBack")
+                {
+                    InputList.Add("DownBack");
+                    Debug.Log("DownBack");
+                }
             }
             TimeSinceLastInput = 0;
         }
 
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow))
         {
-            if (InputList[InputList.Count - 1] != "DownBack")
+            if (this.transform.rotation.y == 0)
             {
-                InputList.Add("DownBack");
-                Debug.Log("DownBack");
+                if (InputList[InputList.Count - 1] != "DownBack")
+                {
+                    InputList.Add("DownBack");
+                    Debug.Log("DownBack");
+                }
+            }
+            else
+            {
+                if (InputList[InputList.Count - 1] != "DownForward")
+                {
+                    InputList.Add("DownForward");
+                    Debug.Log("DownForward");
+                }
             }
             TimeSinceLastInput = 0;
         }
@@ -227,7 +214,7 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -258,6 +245,7 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
+            CheckInput();
             UpdateState(FighterState.LightPunch);
             _animator.SetInteger("State", 5);
             TimeSinceLastInput = 0;
@@ -286,6 +274,7 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
             UpdateState(FighterState.Idle);
             _animator.SetInteger("State", 0);
         }
+
         TimeSinceLastInput += Time.deltaTime;
         if (transform.position.y > 0)
             IsGrounded = false;
@@ -303,5 +292,12 @@ public class FighterBehaviour : MonoBehaviour, IDamageable
     public void UpdateState(FighterState newState)
     {
         CurrentState = newState;
+    }
+
+    public abstract void CheckInput();
+
+    public void AddForceOnX(float x)
+    {
+        rb2d.AddForce(new Vector2(x,0));
     }
 }
