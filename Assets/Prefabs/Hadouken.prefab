@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4945094167af5ac4b9b913f4f939482c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Force: {x: 5, y: 0, z: 0}
+  ForceScaler: 5
   Mass: 1
   LifeTime: 2
 --- !u!212 &212516655763614384
