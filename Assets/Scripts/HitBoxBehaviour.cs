@@ -5,7 +5,7 @@ using UnityEngine;
 public class HitBoxBehaviour : MonoBehaviour, IDamager
 {
     public float DamageAmount;
-    public FighterBehaviour player;
+    public FighterBehaviour Fighter;
     public void DealDamage(IDamageable other, float amount)
     {
         other.TakeDamage(amount);
@@ -14,6 +14,6 @@ public class HitBoxBehaviour : MonoBehaviour, IDamager
     {
         var damagable = col.GetComponent<IDamageable>();
         DealDamage(damagable, DamageAmount);
-        player.Meter.AddToValue(10);
+        Fighter.Meter.AddToValue(10);
     }
 }

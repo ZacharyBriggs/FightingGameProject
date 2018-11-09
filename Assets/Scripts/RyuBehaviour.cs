@@ -66,6 +66,22 @@ public class RyuBehaviour : FighterBehaviour
                     InputList = new List<string> { "None" };
                 }
             }
+            int c = 0;
+            for (int i = SpAttack3.MoveInput.Count; i > 0; i--)
+            {
+                if (InputList[InputList.Count - i] != SpAttack3.MoveInput[c])
+                    break;
+                else
+                    c++;
+
+                if (c == 4)
+                {
+                    _animator.SetInteger("State", 17);
+                    InputList.Add("Sp3");
+                    Debug.Log("Sp3");
+                    InputList = new List<string> { "None" };
+                }
+            }
         }
     }
 }

@@ -300,4 +300,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     {
         rb2d.AddForce(new Vector2(x,0));
     }
+    public void AddForceOnY(float y)
+    {
+        rb2d.AddForce(new Vector2(0, y));
+    }
 }
