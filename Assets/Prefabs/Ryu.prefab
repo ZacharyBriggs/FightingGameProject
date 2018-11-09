@@ -79,6 +79,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1456922971164948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4178476698554018}
+  m_Layer: 0
+  m_Name: ShinkuuHadoukenPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1656452670285994
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +110,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!4 &4178476698554018
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456922971164948}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4399185429140694}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4254669948573512
 Transform:
   m_ObjectHideFlags: 1
@@ -128,13 +156,14 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073515700428472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.25, y: -0.9010794, z: 0.09237971}
+  m_LocalPosition: {x: -2.25, y: -0.89, z: 0.09237971}
   m_LocalScale: {x: 2.341, y: 1.817, z: 1}
   m_Children:
   - {fileID: 4951156406786416}
   - {fileID: 4345623372514992}
   - {fileID: 4666838948431492}
   - {fileID: 4254669948573512}
+  - {fileID: 4178476698554018}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -183,7 +212,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 0
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!61 &61432170175508142
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -316,13 +345,16 @@ MonoBehaviour:
   CurrentHealth: 100
   HealthAmount: 100
   MeterAmount: 0
-  Speed: 5
+  Speed: 100
   opponentTransform: {fileID: 0}
   SpAttack1: {fileID: 11400000, guid: 61b718ca2b9b58e429a9f3474e9a2de1, type: 2}
   SpAttack2: {fileID: 11400000, guid: 97287847424295c439d1fa4b0cfa93f4, type: 2}
   SpAttack3: {fileID: 11400000, guid: 53cd0b8737fb2ea4380a3cb925e65744, type: 2}
+  UAttack1: {fileID: 11400000, guid: 2efa7faf4373398468c72ca08a15b744, type: 2}
   HadoukenSpawnPos: {fileID: 4345623372514992}
   HadoukenPrefab: {fileID: 1429080861874260, guid: 5e9c28ba85ce8c24ebae497de8a119da,
+    type: 2}
+  SHadoukenPrefab: {fileID: 1593420746594118, guid: 3975cb3c9e45cf74a9585db13bf332d9,
     type: 2}
 --- !u!114 &114632014359953482
 MonoBehaviour:
@@ -336,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageAmount: 10
-  player: {fileID: 0}
+  Fighter: {fileID: 0}
 --- !u!212 &212213068423832148
 SpriteRenderer:
   m_ObjectHideFlags: 1
