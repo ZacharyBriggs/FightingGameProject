@@ -27,29 +27,29 @@ public class RyuBehaviour : FighterBehaviour
     public void DoSpecialOne()
     {
         Instantiate(HadoukenPrefab, HadoukenSpawnPos);
-
     }
 
     public override void CheckInput()
     {
         if (InputList.Count > 4)
         {
-            int a = 0;
-            for (int i = SpAttack1.MoveInput.Count; i > 0; i--)
+            int c = 0;
+            for (int i = SpAttack3.MoveInput.Count; i > 0; i--)
             {
-                if (InputList[InputList.Count - i] != SpAttack1.MoveInput[a])
+                if (InputList[InputList.Count - i] != SpAttack3.MoveInput[c])
                     break;
                 else
-                    a++;
+                    c++;
 
-                if (a == 4)
+                if (c == SpAttack3.MoveInput.Count)
                 {
-                    _animator.SetInteger("State", 15);
-                    InputList.Add("Sp1");
-                    Debug.Log("Sp1");
+                    _animator.SetInteger("State", 17);
+                    InputList.Add("Sp3");
+                    Debug.Log("Sp3");
                     InputList = new List<string> { "None" };
                 }
             }
+            
             int b = 0;
             for (int i = SpAttack2.MoveInput.Count; i > 0; i--)
             {
@@ -66,22 +66,24 @@ public class RyuBehaviour : FighterBehaviour
                     InputList = new List<string> { "None" };
                 }
             }
-            int c = 0;
-            for (int i = SpAttack3.MoveInput.Count; i > 0; i--)
+
+            int a = 0;
+            for (int i = SpAttack1.MoveInput.Count; i > 0; i--)
             {
-                if (InputList[InputList.Count - i] != SpAttack3.MoveInput[c])
+                if (InputList[InputList.Count - i] != SpAttack1.MoveInput[a])
                     break;
                 else
-                    c++;
+                    a++;
 
-                if (c == 4)
+                if (a == 4)
                 {
-                    _animator.SetInteger("State", 17);
-                    InputList.Add("Sp3");
-                    Debug.Log("Sp3");
+                    _animator.SetInteger("State", 15);
+                    InputList.Add("Sp1");
+                    Debug.Log("Sp1");
                     InputList = new List<string> { "None" };
                 }
             }
+
         }
     }
 }

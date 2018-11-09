@@ -255,6 +255,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
+            CheckInput();
             UpdateState(FighterState.MediumPunch);
             _animator.SetInteger("State", 6);
             TimeSinceLastInput = 0;
