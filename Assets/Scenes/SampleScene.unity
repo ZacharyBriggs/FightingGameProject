@@ -288,12 +288,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1422695496 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114137399802565916, guid: 80c8231908d18d54bb2ab08715ee1102,
-    type: 2}
-  m_PrefabInternal: {fileID: 1956358613}
-  m_Script: {fileID: 11500000, guid: 350acc1e8495e7e428b7b5604e510a96, type: 3}
 --- !u!1001 &1956358613
 Prefab:
   m_ObjectHideFlags: 0
@@ -340,42 +334,45 @@ Prefab:
       objectReference: {fileID: 2046980825}
     - target: {fileID: 114137399802565916, guid: 80c8231908d18d54bb2ab08715ee1102,
         type: 2}
-      propertyPath: Speed
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 61432170175508142, guid: 80c8231908d18d54bb2ab08715ee1102,
-        type: 2}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 61432170175508142, guid: 80c8231908d18d54bb2ab08715ee1102,
-        type: 2}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 114632014359953482, guid: 80c8231908d18d54bb2ab08715ee1102,
-        type: 2}
-      propertyPath: player
+      propertyPath: ShinkuuHadoukenSpawnPos
       value: 
-      objectReference: {fileID: 1422695496}
-    - target: {fileID: 50587784441763332, guid: 80c8231908d18d54bb2ab08715ee1102,
-        type: 2}
-      propertyPath: m_Simulated
+      objectReference: {fileID: 1956358614}
+    - target: {fileID: 4666838948431492, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254669948573512, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178476698554018, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 50587784441763332, guid: 80c8231908d18d54bb2ab08715ee1102,
-        type: 2}
-      propertyPath: m_GravityScale
-      value: 5
+    - target: {fileID: 4951156406786416, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 50587784441763332, guid: 80c8231908d18d54bb2ab08715ee1102,
-        type: 2}
-      propertyPath: m_Constraints
+    - target: {fileID: 4345623372514992, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178476698554018, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178476698554018, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.38
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
   m_IsPrefabAsset: 0
+--- !u!4 &1956358614 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4178476698554018, guid: 80c8231908d18d54bb2ab08715ee1102,
+    type: 2}
+  m_PrefabInternal: {fileID: 1956358613}
 --- !u!1 &2046980823
 GameObject:
   m_ObjectHideFlags: 0
