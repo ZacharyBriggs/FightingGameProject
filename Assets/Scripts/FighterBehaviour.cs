@@ -13,19 +13,6 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         WalkingBackward, //State 2
         Jumping, //State 3
         Crouching, //State 4
-        LightPunch, //State 5
-        MediumPunch, //State 6
-        HeavyPunch, //State 7
-        JumpingLight, //State 8
-        JumpingMed, //State 9
-        JumpingHeavy, //State 10
-        CrouchingLight, //State 11
-        CrouchingMed, //State 12
-        CrouchingHeavy, // 13
-        Throwing, //14
-        SpecialOne,//15
-        SpecialTwo,//16
-        SpecialThree//17
     }
 
     public float CurrentHealth;
@@ -75,14 +62,17 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     }
     protected void DoubleTapCheck()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetButtonDown("Right"))
         {
 
             if (RightButtonCooldown > 0 && RightButtonCount == 1)
             {
-                rb2d.AddForce(new Vector2((Speed + 25) * 10, 0));
-                InputList.Add("DashForward");
-                Debug.Log("DashForward");
+                if (InputList[InputList.Count - 1] == "Forward")
+                {
+                    rb2d.AddForce(new Vector2((Speed + 25) * 10, 0));
+                    InputList.Add("DashForward");
+                    Debug.Log("DashForward");
+                }
             }
             else
             {
@@ -95,14 +85,17 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         else
             RightButtonCount = 0;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetButtonDown("Left"))
         {
 
             if (LeftButtonCooldown > 0 && LeftButtonCount == 1)
             {
-                rb2d.AddForce(new Vector2(-1 * ((Speed + 25) * 10), 0));
-                InputList.Add("DashBackward");
-                Debug.Log("DashBackward");
+                if (InputList[InputList.Count - 1] == "Back")
+                {
+                    rb2d.AddForce(new Vector2(-1 * ((Speed + 25) * 10), 0));
+                    InputList.Add("DashBackward");
+                    Debug.Log("DashBackward");
+                }
             }
             else
             {
@@ -117,7 +110,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     }
     protected void CheckButtons()
     {
-        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetButton("Down") && Input.GetButton("Right"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -138,7 +131,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetButton("Down") && Input.GetButton("Left"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -159,7 +152,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetButton("Down") && !Input.GetButton("Right"))
         {
             if (InputList[InputList.Count - 1] != "Down")
             {
@@ -171,12 +164,12 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        else if (Input.GetButtonUp("Down"))
         {
             UpdateState(FighterState.Idle);
         }
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded == true)
+        else if (Input.GetButtonDown("Up") && IsGrounded == true)
         {
             InputList.Add("Up");
             Debug.Log("Up");
@@ -186,7 +179,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetButton("Right") && !Input.GetButton("Down"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -214,7 +207,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetButton("Left") && !Input.GetButton("Down"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -241,32 +234,30 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetButtonDown("Attack1"))
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
-            CheckInput();
-            UpdateState(FighterState.LightPunch);
-            _animator.SetInteger("State", 5);
+            if(!CheckInput())
+                _animator.SetTrigger("LightAttackTrigger");
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetButtonDown("Attack2"))
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
-            CheckInput();
-            UpdateState(FighterState.MediumPunch);
-            _animator.SetInteger("State", 6);
+            if (!CheckInput())
+                _animator.SetTrigger("MediumAttackTrigger");
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetButtonDown("Attack3"))
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
-            UpdateState(FighterState.HeavyPunch);
-            _animator.SetInteger("State", 7);
+            if (!CheckInput())
+                _animator.SetTrigger("HeavyAttackTrigger");
             TimeSinceLastInput = 0;
         }
 
@@ -284,6 +275,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             IsGrounded = true;
         _animator.SetBool("IsGrounded", IsGrounded);
     }
+
     public void TakeDamage(float amount)
     {
         Health.TakeDamage(amount);
@@ -295,7 +287,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         CurrentState = newState;
     }
 
-    public abstract void CheckInput();
+    public abstract bool CheckInput();
 
     public void AddForceOnX(float x)
     {
