@@ -117,11 +117,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1456922971164948}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.38, y: 0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4399185429140694}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4254669948573512
 Transform:
@@ -134,7 +134,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4399185429140694}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4345623372514992
 Transform:
@@ -147,7 +147,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4399185429140694}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4399185429140694
 Transform:
@@ -159,11 +159,11 @@ Transform:
   m_LocalPosition: {x: -2.25, y: -0.89, z: 0.09237971}
   m_LocalScale: {x: 2.341, y: 1.817, z: 1}
   m_Children:
-  - {fileID: 4951156406786416}
   - {fileID: 4345623372514992}
+  - {fileID: 4178476698554018}
+  - {fileID: 4951156406786416}
   - {fileID: 4666838948431492}
   - {fileID: 4254669948573512}
-  - {fileID: 4178476698554018}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -178,7 +178,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4399185429140694}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4951156406786416
 Transform:
@@ -191,7 +191,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4399185429140694}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50587784441763332
 Rigidbody2D:
@@ -347,11 +347,13 @@ MonoBehaviour:
   MeterAmount: 0
   Speed: 100
   opponentTransform: {fileID: 0}
+  Player2: 0
   SpAttack1: {fileID: 11400000, guid: 61b718ca2b9b58e429a9f3474e9a2de1, type: 2}
   SpAttack2: {fileID: 11400000, guid: 97287847424295c439d1fa4b0cfa93f4, type: 2}
   SpAttack3: {fileID: 11400000, guid: 53cd0b8737fb2ea4380a3cb925e65744, type: 2}
   UAttack1: {fileID: 11400000, guid: 2efa7faf4373398468c72ca08a15b744, type: 2}
   HadoukenSpawnPos: {fileID: 4345623372514992}
+  ShinkuuHadoukenSpawnPos: {fileID: 4178476698554018}
   HadoukenPrefab: {fileID: 1429080861874260, guid: 5e9c28ba85ce8c24ebae497de8a119da,
     type: 2}
   SHadoukenPrefab: {fileID: 1593420746594118, guid: 3975cb3c9e45cf74a9585db13bf332d9,

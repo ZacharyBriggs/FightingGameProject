@@ -24,6 +24,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     private HealthScriptable Health;
     [NonSerialized]
     public MeterScriptable Meter;
+    public bool Player2;
     protected List<string> InputList = new List<string> { "None" };
     private Rigidbody2D rb2d;
     private FighterState CurrentState;
@@ -62,14 +63,15 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     }
     protected void DoubleTapCheck()
     {
-        if (Input.GetButtonDown("Right"))
+        if ( Player2 == false && Input.GetButtonDown("Right") 
+            || Player2 == true && Input.GetButtonDown("P2Right"))
         {
 
             if (RightButtonCooldown > 0 && RightButtonCount == 1)
             {
                 if (InputList[InputList.Count - 1] == "Forward")
                 {
-                    rb2d.AddForce(new Vector2((Speed + 25) * 10, 0));
+                    rb2d.AddForce(new Vector2(transform.right.x*Speed+25,0));
                     InputList.Add("DashForward");
                     Debug.Log("DashForward");
                 }
@@ -85,7 +87,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         else
             RightButtonCount = 0;
 
-        if (Input.GetButtonDown("Left"))
+        if (Player2 == false && Input.GetButtonDown("Left") 
+            || Player2 == true && Input.GetButtonDown("P2Left"))
         {
 
             if (LeftButtonCooldown > 0 && LeftButtonCount == 1)
@@ -110,7 +113,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     }
     protected void CheckButtons()
     {
-        if (Input.GetButton("Down") && Input.GetButton("Right"))
+        if (Player2 == false && Input.GetButton("Down") && Input.GetButton("Right") 
+            || Player2 == true && Input.GetButton("P2Down") && Input.GetButton("Right"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -131,7 +135,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        if (Input.GetButton("Down") && Input.GetButton("Left"))
+        if (Player2 == false && Input.GetButton("Down") && Input.GetButton("Left")
+            || Player2 == true && Input.GetButton("P2Down") && Input.GetButton("Left"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -152,7 +157,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetButton("Down") && !Input.GetButton("Right"))
+        else if (Player2 == false && Input.GetButton("Down") && !Input.GetButton("Right")
+                || Player2 == true && Input.GetButton("P2Down") && !Input.GetButton("Right"))
         {
             if (InputList[InputList.Count - 1] != "Down")
             {
@@ -164,22 +170,28 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetButtonUp("Down"))
+        else if (Player2 == false && Input.GetButtonUp("Down")
+            || Player2 == true && Input.GetButtonUp("P2Down"))
         {
             UpdateState(FighterState.Idle);
         }
 
-        else if (Input.GetButtonDown("Up") && IsGrounded == true)
+        else if (Player2 == false && Input.GetButtonDown("Up") 
+            || Player2 == true && Input.GetButtonDown("P2Up"))
         {
-            InputList.Add("Up");
-            Debug.Log("Up");
-            UpdateState(FighterState.Jumping);
-            _animator.SetInteger("State", 3);
-            rb2d.AddForce(new Vector2(0, 2500));
-            TimeSinceLastInput = 0;
+            if (IsGrounded == true)
+            {
+                InputList.Add("Up");
+                Debug.Log("Up");
+                UpdateState(FighterState.Jumping);
+                _animator.SetInteger("State", 3);
+                rb2d.AddForce(new Vector2(0, 2500));
+                TimeSinceLastInput = 0;
+            }
         }
 
-        else if (Input.GetButton("Right") && !Input.GetButton("Down"))
+        else if (Player2 == false && Input.GetButton("Right") && !Input.GetButton("Down") 
+            || Player2 == true && Input.GetButton("P2Right") && !Input.GetButton("P2Down"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -207,7 +219,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetButton("Left") && !Input.GetButton("Down"))
+        else if (Player2 == false && Input.GetButton("Left") && !Input.GetButton("Down")
+            || Player2 == true &&Input.GetButton("P2Left") && !Input.GetButton("P2Down"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -234,7 +247,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetButtonDown("Attack1"))
+        else if (Player2 == false && Input.GetButtonDown("Attack1")
+            || Player2 == true && Input.GetButtonDown("P2Attack1"))
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
@@ -243,7 +257,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetButtonDown("Attack2"))
+        else if (Player2 == false && Input.GetButtonDown("Attack2")
+            || Player2 == true && Input.GetButtonDown("P2Attack2"))
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
@@ -252,7 +267,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Input.GetButtonDown("Attack3"))
+        else if (Player2 == false && Input.GetButtonDown("Attack3")
+            || Player2 == true && Input.GetButtonDown("P2Attack3"))
         {
             InputList.Add("Attack");
             Debug.Log("Attack");
