@@ -365,6 +365,11 @@ Prefab:
       propertyPath: m_Color.b
       value: 0.04819329
       objectReference: {fileID: 0}
+    - target: {fileID: 114137399802565916, guid: 80c8231908d18d54bb2ab08715ee1102,
+        type: 2}
+      propertyPath: DashSpeed
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
   m_IsPrefabAsset: 0
@@ -417,6 +422,11 @@ Prefab:
       propertyPath: opponentTransform
       value: 
       objectReference: {fileID: 1808645165}
+    - target: {fileID: 114137399802565916, guid: 80c8231908d18d54bb2ab08715ee1102,
+        type: 2}
+      propertyPath: DashSpeed
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
   m_IsPrefabAsset: 0
