@@ -19,6 +19,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     public float HealthAmount;
     public float MeterAmount;
     public float Speed;
+    public float DashSpeed;
     public Transform opponentTransform;
     private float TimeSinceLastInput = 0;
     private HealthScriptable Health;
@@ -63,18 +64,25 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     }
     protected void DoubleTapCheck()
     {
-        if ( Player2 == false && Input.GetButtonDown("Right") 
+        if ( Player2 == false && Input.GetButtonDown("Right")
             || Player2 == true && Input.GetButtonDown("P2Right"))
         {
 
             if (RightButtonCooldown > 0 && RightButtonCount == 1)
             {
-                if (InputList[InputList.Count - 1] == "Forward")
+                if (this.transform.rotation.y == 0)
                 {
-                    rb2d.AddForce(new Vector2(transform.right.x*Speed+25,0));
+                    rb2d.AddForce(new Vector2(transform.right.x * DashSpeed, 0));
                     InputList.Add("DashForward");
                     Debug.Log("DashForward");
                 }
+                else
+                {
+                    rb2d.AddForce(new Vector2(-1 * (transform.right.x * DashSpeed), 0));
+                    InputList.Add("DashBackward");
+                    Debug.Log("DashBackward");
+                }
+
             }
             else
             {
@@ -93,11 +101,17 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
 
             if (LeftButtonCooldown > 0 && LeftButtonCount == 1)
             {
-                if (InputList[InputList.Count - 1] == "Back")
+                if (this.transform.rotation.y == 0)
                 {
-                    rb2d.AddForce(new Vector2(-1 * ((Speed + 25) * 10), 0));
+                    rb2d.AddForce(new Vector2(-1 * (transform.right.x * DashSpeed), 0));
                     InputList.Add("DashBackward");
                     Debug.Log("DashBackward");
+                }
+                else
+                {
+                    rb2d.AddForce(new Vector2(transform.right.x * DashSpeed, 0));
+                    InputList.Add("DashForward");
+                    Debug.Log("DashForward");
                 }
             }
             else
