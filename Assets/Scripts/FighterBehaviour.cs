@@ -20,6 +20,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     public float MeterAmount;
     public float Speed;
     public float DashSpeed;
+    public BoxCollider2D fighterCollider;
     public Transform opponentTransform;
     private float TimeSinceLastInput = 0;
     private HealthScriptable Health;
@@ -47,6 +48,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         CurrentHealth = HealthAmount;
         rb2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        fighterCollider = GetComponent<BoxCollider2D>();
     }
 
     protected void RotationCheck()
@@ -72,15 +74,21 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             {
                 if (this.transform.rotation.y == 0)
                 {
-                    rb2d.AddForce(new Vector2(transform.right.x * DashSpeed, 0));
-                    InputList.Add("DashForward");
-                    Debug.Log("DashForward");
+                    if (InputList[InputList.Count - 1] == "Forward")
+                    {
+                        rb2d.AddForce(new Vector2(transform.right.x * DashSpeed, 0));
+                        InputList.Add("DashForward");
+                        Debug.Log("DashForward");
+                    }
                 }
                 else
                 {
-                    rb2d.AddForce(new Vector2(-1 * (transform.right.x * DashSpeed), 0));
-                    InputList.Add("DashBackward");
-                    Debug.Log("DashBackward");
+                    if (InputList[InputList.Count - 1] == "Back")
+                    {
+                        rb2d.AddForce(new Vector2(-1 * (transform.right.x * DashSpeed), 0));
+                        InputList.Add("DashBackward");
+                        Debug.Log("DashBackward");
+                    }
                 }
 
             }
@@ -103,15 +111,21 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             {
                 if (this.transform.rotation.y == 0)
                 {
-                    rb2d.AddForce(new Vector2(-1 * (transform.right.x * DashSpeed), 0));
-                    InputList.Add("DashBackward");
-                    Debug.Log("DashBackward");
+                    if (InputList[InputList.Count - 1] == "Back")
+                    {
+                        rb2d.AddForce(new Vector2(-1 * (transform.right.x * DashSpeed), 0));
+                        InputList.Add("DashBackward");
+                        Debug.Log("DashBackward");
+                    }
                 }
                 else
                 {
-                    rb2d.AddForce(new Vector2(transform.right.x * DashSpeed, 0));
-                    InputList.Add("DashForward");
-                    Debug.Log("DashForward");
+                    if (InputList[InputList.Count - 1] == "Forward")
+                    {
+                        rb2d.AddForce(new Vector2(transform.right.x * DashSpeed, 0));
+                        InputList.Add("DashForward");
+                        Debug.Log("DashForward");
+                    }
                 }
             }
             else
@@ -179,6 +193,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                 InputList.Add("Down");
                 Debug.Log("Down");
             }
+            this.transform.position = new Vector3(this.transform.position.x, -1.15f, this.transform.position.z);
+            fighterCollider.size = new Vector2(0.66f,0.66f);
             UpdateState(FighterState.Crouching);
             _animator.SetInteger("State", 4);
             TimeSinceLastInput = 0;
@@ -187,6 +203,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         else if (Player2 == false && Input.GetButtonUp("Down")
             || Player2 == true && Input.GetButtonUp("P2Down"))
         {
+            this.transform.position = new Vector3(this.transform.position.x, -0.9010102f, this.transform.position.z);
+            fighterCollider.size = new Vector2(0.66f, 0.94f);
             UpdateState(FighterState.Idle);
         }
 
