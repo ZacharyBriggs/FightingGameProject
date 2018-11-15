@@ -29,7 +29,7 @@ public class RyuBehaviour : FighterBehaviour
 
     public void DoSpecialOne()
     {
-        Instantiate(HadoukenPrefab, HadoukenSpawnPos);
+        Instantiate(HadoukenPrefab, HadoukenSpawnPos.position, Quaternion.identity);
     }
 
     public void DoUltraOne()

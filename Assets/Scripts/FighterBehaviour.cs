@@ -142,7 +142,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     protected void CheckButtons()
     {
         if (Player2 == false && Input.GetButton("Down") && Input.GetButton("Right") 
-            || Player2 == true && Input.GetButton("P2Down") && Input.GetButton("Right"))
+            || Player2 == true && Input.GetButton("P2Down") && Input.GetButton("P2Right"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -164,7 +164,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         }
 
         if (Player2 == false && Input.GetButton("Down") && Input.GetButton("Left")
-            || Player2 == true && Input.GetButton("P2Down") && Input.GetButton("Left"))
+            || Player2 == true && Input.GetButton("P2Down") && Input.GetButton("P2Left"))
         {
             if (this.transform.rotation.y == 0)
             {
@@ -186,7 +186,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         }
 
         else if (Player2 == false && Input.GetButton("Down") && !Input.GetButton("Right")
-                || Player2 == true && Input.GetButton("P2Down") && !Input.GetButton("Right"))
+                || Player2 == true && Input.GetButton("P2Down") && !Input.GetButton("P2Right"))
         {
             if (InputList[InputList.Count - 1] != "Down")
             {
