@@ -14,6 +14,10 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         Jumping, //State 3
         Crouching, //State 4
     }
+    public void OnIdleEnter()
+    {
+
+    }
 
     public float CurrentHealth;
     public float HealthAmount;
@@ -35,7 +39,11 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     private float RightButtonCount = 0;
     private float LeftButtonCooldown = 0.5f;
     private float LeftButtonCount = 0;
+    private bool IsIdle = true;
+    private bool IsWalkingForward;
+    private bool IsWalkingBackward;
     private bool IsGrounded = true;
+    private bool IsCrouching = false;
 
     protected void StartUp()
     {
@@ -196,7 +204,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             this.transform.position = new Vector3(this.transform.position.x, -1.15f, this.transform.position.z);
             fighterCollider.size = new Vector2(0.66f,0.66f);
             UpdateState(FighterState.Crouching);
-            _animator.SetInteger("State", 4);
+            _animator.SetBool("IsCrouching",true);
             TimeSinceLastInput = 0;
         }
 
@@ -206,6 +214,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             this.transform.position = new Vector3(this.transform.position.x, -0.9010102f, this.transform.position.z);
             fighterCollider.size = new Vector2(0.66f, 0.94f);
             UpdateState(FighterState.Idle);
+            _animator.SetBool("IsCrouching", false);
         }
 
         else if (Player2 == false && Input.GetButtonDown("Up") 
@@ -216,7 +225,6 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                 InputList.Add("Up");
                 Debug.Log("Up");
                 UpdateState(FighterState.Jumping);
-                _animator.SetInteger("State", 3);
                 rb2d.AddForce(new Vector2(0, 2500));
                 TimeSinceLastInput = 0;
             }
@@ -233,7 +241,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                     Debug.Log("Forward");
                 }
                 UpdateState(FighterState.WalkingForward);
-                _animator.SetInteger("State", 1);
+                _animator.SetBool("IsWalkingForward", true);
                 rb2d.AddForce(new Vector2(transform.right.x * Speed, 0));
             }
             else
@@ -244,7 +252,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                     Debug.Log("Back");
                 }
                 UpdateState(FighterState.WalkingBackward);
-                _animator.SetInteger("State", 2);
+                _animator.SetBool("IsWalkingBackward", true);
                 rb2d.AddForce(new Vector2(-(transform.right.x * Speed), 0));
                 TimeSinceLastInput = 0;
             }
@@ -279,7 +287,16 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Player2 == false && Input.GetButtonDown("Attack1")
+        else
+        {
+            UpdateState(FighterState.Idle);
+            _animator.SetBool("IsIdle", true);
+            _animator.SetBool("IsWalkingBackward", false);
+            _animator.SetBool("IsWalkingForward", false);
+            _animator.SetBool("IsCrouching", false);
+        }
+
+        if (Player2 == false && Input.GetButtonDown("Attack1")
             || Player2 == true && Input.GetButtonDown("P2Attack1"))
         {
             InputList.Add("Attack");
@@ -309,11 +326,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else
-        {
-            UpdateState(FighterState.Idle);
-            _animator.SetInteger("State", 0);
-        }
+        
 
         TimeSinceLastInput += Time.deltaTime;
         if (transform.position.y > 0)
