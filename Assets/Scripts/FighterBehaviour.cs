@@ -14,10 +14,6 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
         Jumping, //State 3
         Crouching, //State 4
     }
-    public void OnIdleEnter()
-    {
-
-    }
 
     public float CurrentHealth;
     public float HealthAmount;
@@ -44,6 +40,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     private bool IsWalkingBackward;
     private bool IsGrounded = true;
     private bool IsCrouching = false;
+    public GameEvent HealthChanged;
 
     protected void StartUp()
     {
@@ -340,6 +337,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
     public void TakeDamage(float amount)
     {
         Health.TakeDamage(amount);
+        HealthChanged.Raise();
         CurrentHealth = Health.Value;
     }
 
