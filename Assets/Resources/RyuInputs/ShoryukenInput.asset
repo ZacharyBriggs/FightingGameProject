@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: ShoryukenInput
   m_EditorClassIdentifier: 
   MoveInput:
-  - Back
   - Forward
   - Down
+  - DownForward
   - Attack

@@ -267,7 +267,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                     Debug.Log("Back");
                 }
                 UpdateState(FighterState.WalkingBackward);
-                _animator.SetInteger("State", 2);
+                _animator.SetBool("IsWalkingBackward", true);
                 rb2d.AddForce(new Vector2(-(transform.right.x * Speed), 0));
             }
             else
@@ -278,7 +278,7 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                     Debug.Log("Forward");
                 }
                 UpdateState(FighterState.WalkingForward);
-                _animator.SetInteger("State", 1);
+                _animator.SetBool("IsWalkingForward", true);
                 rb2d.AddForce(new Vector2(transform.right.x * Speed, 0));
             }
             TimeSinceLastInput = 0;
