@@ -157,6 +157,12 @@ Prefab:
       propertyPath: opponentTransform
       value: 
       objectReference: {fileID: 2050271059}
+    - target: {fileID: 114909903107748754, guid: 8e1c28c146f9c1842aae655784241915,
+        type: 2}
+      propertyPath: HealthChanged
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f57549f38e15c4458cec9118fc5daef,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e1c28c146f9c1842aae655784241915, type: 2}
   m_IsPrefabAsset: 0
@@ -661,6 +667,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: 80398eb4a571c5d4abe046df03e25c13,
         type: 2}
+    - target: {fileID: 4345623372514992, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.71
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80c8231908d18d54bb2ab08715ee1102, type: 2}
   m_IsPrefabAsset: 0

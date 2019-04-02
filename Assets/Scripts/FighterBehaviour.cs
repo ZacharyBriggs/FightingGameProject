@@ -199,20 +199,20 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                 Debug.Log("Down");
             }
             this.transform.position = new Vector3(this.transform.position.x, -1.15f, this.transform.position.z);
-            fighterCollider.size = new Vector2(0.66f,0.66f);
+            fighterCollider.size = new Vector2(0.66f, 0.94f);
             UpdateState(FighterState.Crouching);
             _animator.SetBool("IsCrouching",true);
             TimeSinceLastInput = 0;
         }
 
-        else if (Player2 == false && Input.GetButtonUp("Down")
-            || Player2 == true && Input.GetButtonUp("P2Down"))
-        {
-            this.transform.position = new Vector3(this.transform.position.x, -0.9010102f, this.transform.position.z);
-            fighterCollider.size = new Vector2(0.66f, 0.94f);
-            UpdateState(FighterState.Idle);
-            _animator.SetBool("IsCrouching", false);
-        }
+        //else if (Player2 == false && Input.GetButtonUp("Down")
+        //    || Player2 == true && Input.GetButtonUp("P2Down"))
+        //{
+        //    this.transform.position = new Vector3(this.transform.position.x, -0.9010102f, this.transform.position.z);
+        //    fighterCollider.size = new Vector2(0.66f, 0.94f);
+        //    UpdateState(FighterState.Idle);
+        //    _animator.SetBool("IsCrouching", false);
+        //}
 
         else if (Player2 == false && Input.GetButtonDown("Up") 
             || Player2 == true && Input.GetButtonDown("P2Up"))
@@ -222,13 +222,24 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
                 InputList.Add("Up");
                 Debug.Log("Up");
                 UpdateState(FighterState.Jumping);
-                rb2d.AddForce(new Vector2(0, 2500));
+
+                if (Input.GetButtonDown("Right"))
+                {
+                    rb2d.AddForce(new Vector2(1000, 2500));
+                }
+
+                else if (Input.GetButtonDown("Left"))
+                {
+                    rb2d.AddForce(new Vector2(-1000, 2500));
+                }
+                else
+                    rb2d.AddForce(new Vector2(0, 2500));
                 TimeSinceLastInput = 0;
             }
         }
 
-        else if (Player2 == false && Input.GetButton("Right") && !Input.GetButton("Down") 
-            || Player2 == true && Input.GetButton("P2Right") && !Input.GetButton("P2Down"))
+        else if (Player2 == false && Input.GetButton("Right") && !Input.GetButton("Down") && CurrentState != FighterState.Jumping 
+            || Player2 == true && Input.GetButton("P2Right") && !Input.GetButton("P2Down") && CurrentState != FighterState.Jumping)
         {
             if (this.transform.rotation.y == 0)
             {
@@ -256,8 +267,8 @@ public abstract class FighterBehaviour : MonoBehaviour, IDamageable
             TimeSinceLastInput = 0;
         }
 
-        else if (Player2 == false && Input.GetButton("Left") && !Input.GetButton("Down")
-            || Player2 == true &&Input.GetButton("P2Left") && !Input.GetButton("P2Down"))
+        else if (Player2 == false && Input.GetButton("Left") && !Input.GetButton("Down") && CurrentState != FighterState.Jumping
+            || Player2 == true &&Input.GetButton("P2Left") && !Input.GetButton("P2Down") && CurrentState != FighterState.Jumping)
         {
             if (this.transform.rotation.y == 0)
             {
